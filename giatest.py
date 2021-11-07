@@ -9,9 +9,13 @@ def report(section, quiz):
 	q = 0
 	for r in quiz[0]:
 		q+=1
-		print (f"  {q}) [{r[0]} = {r[1][0]} - your answer: {r[1][1]}")
+		mark = ""
 		if (str(r[1][0])==r[1][1]):
 			score+=1
+		else:
+			mark = '*'
+		
+		print (f"  {q}) [{r[0]} = {r[1][0]} - your answer: {r[1][1]} {mark}")
 	print("")
 	print(f"Report: {section}")
 	t = round(quiz[1])
@@ -82,3 +86,11 @@ result = test_number_distance(section_length)
 report("Number Distance", result)
 result = test_letter_match(section_length)
 report("Letter Match", result)
+
+#Key (Thesaurus):
+
+#8832b19d-6983-4e38-a038-2cea8211aaaf
+
+#Key (Intermediate Thesaurus):
+
+#d0f3093b-d5b0-4a40-a4e2-1d3c0608e378
