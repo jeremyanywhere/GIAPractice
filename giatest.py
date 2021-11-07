@@ -27,9 +27,9 @@ def test_number_distance(section_length):
 	time_stamp = time.time()
 	for x in range(section_length):
 		# generate s (small number) random no. 1-5
-		s = random.randint(1,10)	
+		s = random.randint(1,12)	
 		# add an odd no. 3,5,7,9 to it, to generate b (big number)
-		b = s + random.choice([3,5,7]) 
+		b = s + random.choice([3,5,7,9]) 
 		# subtract s from b, generate random no. in that range, add to s to get m (middle no) 
 		m = random.choice(range(s+1,b-1))	
 		# work out which is closer (b-m) > (m-s)? store as a (answer)
