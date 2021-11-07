@@ -15,8 +15,8 @@ def report(section, quiz):
 	print("")
 	print(f"Report: {section}")
 	t = round(quiz[1])
-	print (f"Time: {t} secs. - average per question: {round (t/len(quiz))}")
-	print (f"Total score: {score} out of {len(quiz)} = {round(score/len(quiz)*100)}%")
+	print (f"Time: {t} secs. - average per question: {round (t/len(quiz[0]))}")
+	print (f"Total score: {score} out of {len(quiz[0])} = {round(score/len(quiz[0])*100)}%")
 	print("")
 
  
