@@ -4,10 +4,10 @@ import string
 import sys
 
 
-def report(section, quiz):
+def report(section, quiz, seconds):
 	score = 0
 	q = 0
-	for r in quiz[0]:
+	for r in quiz:
 		q+=1
 		mark = ""
 		if (str(r[1][0])==r[1][1]):
@@ -15,47 +15,50 @@ def report(section, quiz):
 		else:
 			mark = '*'
 		
-		print (f"  {q}) [{r[0]} = {r[1][0]} - your answer: {r[1][1]} {mark}")
+	print (f"  {q}) [{r[0]} = {r[1][0]} - your answer: {r[1][1]} {mark}")
 	print("")
 	print(f"Report: {section}")
-	t = round(quiz[1])
-	print (f"Time: {t} secs. - average per question: {round (t/len(quiz[0]))}")
-	print (f"Total score: {score} out of {len(quiz[0])} = {round(score/len(quiz[0])*100)}%")
+	print(f"Time : {seconds} secs. ")
+	print(f"Questions Answered: {len(quiz)}")
+	print(f"Average time per question: {round(seconds/len(quiz),1)} secs.")
+	print(f"Correct Answers: {score} out of {len(quiz)} - {round(score/len(quiz)*100)}%")
+	print(f"Average time per correct answer: {round(seconds/score,1)}")
 	print("")
 
  
-def test_number_distance(section_length):
+def test_number_distance(seconds):
 	quiz = []
 	print(f"Number Distance Test..")
 	input ("Hit any key to start..")
-	time_stamp = time.time()
-	for x in range(section_length):
+	time_stamp = round(time.time())
+	while time.time()-time_stamp < seconds:
 		# generate s (small number) random no. 1-5
 		s = random.randint(1,12)	
 		# add an odd no. 3,5,7,9 to it, to generate b (big number)
-		b = s + random.choice([3,5,7,9]) 
-		# subtract s from b, generate random no. in that range, add to s to get m (middle no) 
+		b = s + random.choice([3,5,7,9,11]) 
+		# generate random no. in that range, to get m (middle no) 
 		m = random.choice(range(s+1,b-1))	
 		# work out which is closer (b-m) > (m-s)? store as a (answer)
 		a = b if b-m > m-s else s 
 		rec = [s,m,b]
-		# randomise into an array 
+		# shuffle the 3 numbers 
 		random.shuffle(rec)
 		print (f"[{rec[0]} {rec[1]} {rec[2]}]")
+		# get user input
 		u = input ("? ")
-		#store tuple of record plus answer
-		hist = (rec, [a,u])
-		# get user input, store in set, put set in array
-		# when loop is done, print report and score.
-		quiz.append(hist)
-	return (quiz, time.time()-time_stamp)
+		#store tuple of question record plus answer
+		quest = (rec, [a,u])
+		#add to quiz
+		quiz.append(quest)
+	#return quiz with the time. 
+	return quiz
 
-def test_letter_match(length):
+def test_letter_match(seconds):
 	print(f"Letter Match Test..")
 	input ("Hit any key to start..")
-	time_stamp = time.time()
+	time_stamp = round(time.time())
 	quiz = []
-	for x in range(section_length):
+	while time.time()-time_stamp < seconds:
 		l = ""+string.ascii_lowercase
 		top = ""
 		bot = ""
@@ -76,21 +79,17 @@ def test_letter_match(length):
 		print (f"{bot[0]} {bot[1]} {bot[2]} {bot[3]}")
 		u = input ("? ")
 		quiz.append(([top,bot], [a,u]))
-	return (quiz, time.time()-time_stamp)
+	return quiz
 
 # do both tests to specified length or default 10, then dump report
-section_length = 10
+timing = 60
 if len(sys.argv) > 1:
-	section_length = int(sys.argv[1])
-result = test_number_distance(section_length)
-report("Number Distance", result)
-result = test_letter_match(section_length)
-report("Letter Match", result)
+	timing = int(sys.argv[1])
+else:
+	print(f"Defaulting to {timing} seconds. Specify no. seconds at command prompt if required")
+result = test_number_distance(timing)
+report("Number Distance", result, timing)
+result = test_letter_match(timing)
+report("Letter Match", result, timing)
 
-#Key (Thesaurus):
 
-#8832b19d-6983-4e38-a038-2cea8211aaaf
-
-#Key (Intermediate Thesaurus):
-
-#d0f3093b-d5b0-4a40-a4e2-1d3c0608e378
